@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.ryh.mapper.StudentMapper">  
+<!--设置model类和数据库中表的字段一一对应，注意数据库字段和model类中的字段名称不致，此处一定要！-->  
+    <resultMap id="BaseResultMap" type="com.ryh.bean.Student">  
+        <id column="USER_ID" property="id" jdbcType="INTEGER" />  
+        <result column="USER_NAME" property="name" jdbcType="VARCHAR" />  
+        <result column="USER_AGE" property="age" jdbcType="INTEGER" />  
+        <result column="USER_AVATAR_URL" property="avatar_url" jdbcType="VARCHAR" />
+        <result column="USER_CREDIT" property="credit" jdbcType="FLOAT" />  
+    </resultMap>  
+    <!-- 查询单条记录 -->  
+    <select id = "findAll"  resultMap = "BaseResultMap">  
+        SELECT * FROM ST
+    </select>
+    
+    <insert id = "addSt" parameterType = "com.ryh.bean.Student">
+        INSERT INTO ST(USER_ID, USER_NAME, USER_AGE, USER_AVATAR_URL, USER_CREDIT) 
+        VALUES(#{id}, #{name}, #{age}, #{avatar_url}, #{credit})
+    </insert>
+    
+    <update id = "updateSt" parameterType = "com.ryh.bean.Student">
+        UPDATE ST SET 
+            USER_NAME = #{name},
+            USER_AGE = #{age}, 
+            USER_AVATAR_URL = #{avatar_url}, 
+            USER_CREDIT = #{credit} 
+        where USER_ID = #{id}
+    </update>
+    
+    <delete id = "deleteSt" parameterType="java.lang.String">
+         DELETE FROM ST WHERE USER_ID IN (${ids})
+    </delete>
+    
+    <select id = "fetchSt" parameterType="int" resultMap = "BaseResultMap">
+         SELECT * FROM ST LIMIT #{onset},#{page_size};
+    </select>
+</mapper> 
